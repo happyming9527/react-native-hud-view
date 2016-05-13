@@ -13,7 +13,7 @@ import React, {
   Easing,
   StyleSheet
 } from 'react-native';
-
+import GiftedSpinner from 'react-native-gifted-spinner'
 const styles = StyleSheet.create({
   mainContainer: {flex: 1, justifyContent: "center", alignItems: "center", position:"absolute", top: 0, bottom: 0, left: 0, right: 0},
   hudContainer: {justifyContent:"center", alignItems: "center", width:80, height:80, borderRadius: 5}
@@ -25,17 +25,10 @@ class HudView extends React.Component {
      this.state = {
        fadeDuration: this._getFadeDuration(),
        isVisible: false,
-       isRotating: false,
        icon: null,
-       fadeAnim: new Animated.Value(0),
-       rotationAnim: new Animated.Value(0),
+       fadeAnim: new Animated.Value(0)
      };
    }
-
-  reset() {
-    this.setState({rotationAnim: new Animated.Value(0)})
-    return this
-  }
 
    _hexToRgb(hex){
        hex = hex.replace('#','');
@@ -60,19 +53,6 @@ class HudView extends React.Component {
      ).start(() => {
        this.setState({isVisible: false})
      });
-   }
-
-   _initializeRotationAnimation(isRotating) {
-     this.state.rotationAnim.setValue(0)
-     if (!isRotating && !this.state.isVisible) return;
-
-     Animated.timing(this.state.rotationAnim, {
-            toValue: 1,
-            duration: 800,
-            easing: Easing.linear,
-        }).start(() => {
-          this._initializeRotationAnimation()
-        });
    }
 
    _getHudBackgroundColor() {
@@ -127,13 +107,6 @@ class HudView extends React.Component {
     }
   }
 
-   _getInterpolatedRotateAnimation() {
-     return this.state.rotationAnim.interpolate({
-           inputRange: [0, 1],
-         outputRange: ['0deg', '360deg']
-       });
-   }
-
    _getHudContainerStyles() {
      return [styles.hudContainer, {opacity: this.state.fadeAnim}, {backgroundColor: this._getHudRgbaColor()}]
    }
@@ -142,19 +115,14 @@ class HudView extends React.Component {
     return [this.props.style, {flex: 1}];
   }
 
-  _getIconWrapperStyles() {
-    var styles = this.state.isRotating ? {transform: [{rotate: this._getInterpolatedRotateAnimation()}]} : {};
-    return styles;
-  }
-
   _renderIcon() {
-    return (<Animated.View style={this._getIconWrapperStyles()}>
+    return (<View>
       {this.state.icon}
-    </Animated.View>)
+    </View>)
   }
 
   _renderDefaultSpinnerComponent() {
-    return <FontAwesome name="circle-o-notch" size={this._getIconSize()} color={this._getIconColor()}/>
+    return <GiftedSpinner style={{height: 40}} size={"large"} color="white" />
   }
 
   _renderDefaultSuccessComponent() {
@@ -165,9 +133,8 @@ class HudView extends React.Component {
     return <FontAwesome name="exclamation-triangle" size={this._getIconSize()} color={this._getIconColor()}/>
   }
 
-  _showHud(icon, rotate, hideOnCompletion) {
-    this.setState({icon: icon, isRotating: rotate})
-    this._initializeRotationAnimation(rotate);
+  _showHud(icon, hideOnCompletion) {
+    this.setState({isVisible: false, icon: icon})
     this._fadeIn();
 
     return new Promise((resolve, reject) => {
@@ -198,31 +165,27 @@ class HudView extends React.Component {
 
   showSpinner() {
     const icon = this.props.spinnerComponent || this._renderDefaultSpinnerComponent();
-    return this._showHud(icon, true);
+    return this._showHud(icon);
   }
 
   showSuccess() {
-    this.reset()
     const icon = this.props.successComponent || this._renderDefaultSuccessComponent();
-    return this._showHud(icon, false, true);
+    return this._showHud(icon, true);
   }
 
   showError() {
-    this.reset()
     const icon = this.props.errorComponent || this._renderDefaultErrorComponent();
-    return this._showHud(icon, false, true);
+    return this._showHud(icon, true);
   }
 
-  showCustomIcon(setName, iconName, rotate, hideOnCompletion) {
-    this.reset()
+  showCustomIcon(setName, iconName, hideOnCompletion) {
     const _component = this._getIconComponent(setName);
     const icon = <_component name={iconName} size={this._getIconSize()} color={this._getIconColor()}/>
-    return this._showHud(icon, rotate, hideOnCompletion);
+    return this._showHud(icon, hideOnCompletion);
   }
 
-  showCustomComponent(component, rotate, hideOnCompletion) {
-    this.reset()
-    return this._showHud(component, rotate, hideOnCompletion);
+  showCustomComponent(component, hideOnCompletion) {
+    return this._showHud(component, hideOnCompletion);
   }
 
   render() {

@@ -1,32 +1,77 @@
 {
-  "name": "react-native-hud-view",
-  "version": "1.0.4",
-  "description": "HudView is a React Native Component for showing HUDs. HudView is based on react-native-vector-icons but can also be used with custom components.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "_args": [
+    [
+      "react-native-hud-view@github:iktw/react-native-hud-view",
+      "/Users/liuzhiming/Documents/work/react/calohas"
+    ]
+  ],
+  "_from": "iktw/react-native-hud-view",
+  "_id": "react-native-hud-view@1.0.5",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/react-native-hud-view",
+  "_phantomChildren": {},
+  "_requested": {
+    "hosted": {
+      "directUrl": "https://raw.githubusercontent.com/iktw/react-native-hud-view/master/package.json",
+      "gitUrl": "git://github.com/iktw/react-native-hud-view.git",
+      "httpsUrl": "git+https://github.com/iktw/react-native-hud-view.git",
+      "shortcut": "github:iktw/react-native-hud-view",
+      "ssh": "git@github.com:iktw/react-native-hud-view.git",
+      "sshUrl": "git+ssh://git@github.com/iktw/react-native-hud-view.git",
+      "type": "github"
+    },
+    "name": "react-native-hud-view",
+    "raw": "react-native-hud-view@github:iktw/react-native-hud-view",
+    "rawSpec": "github:iktw/react-native-hud-view",
+    "scope": null,
+    "spec": "github:iktw/react-native-hud-view",
+    "type": "hosted"
   },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "git://github.com/iktw/react-native-hud-view.git#aea8f2d1b67cab6c878a84504d6fde7260ca3279",
+  "_shasum": "44125d530203d2e9693aa400435eb2cb53e982c9",
+  "_shrinkwrap": null,
+  "_spec": "react-native-hud-view@github:iktw/react-native-hud-view",
+  "_where": "/Users/liuzhiming/Documents/work/react/calohas",
+  "author": {
+    "name": "Mohammed Hammoud"
+  },
+  "bugs": {
+    "url": "https://github.com/iktw/react-native-hud-view/issues"
+  },
+  "dependencies": {
+    "react-native-gifted-spinner": "^0.0.3",
+    "react-native-vector-icons": "^1.3.4"
+  },
+  "description": "HudView is a React Native Component for showing HUDs. HudView is based on react-native-vector-icons but can also be used with custom components.",
+  "devDependencies": {},
+  "gitHead": "aea8f2d1b67cab6c878a84504d6fde7260ca3279",
+  "homepage": "https://github.com/iktw/react-native-hud-view#readme",
+  "keywords": [
+    "android",
+    "hud",
+    "ios",
+    "native",
+    "react",
+    "react-component",
+    "react-native",
+    "react-native-component"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "react-native-hud-view",
+  "optionalDependencies": {},
+  "readme": "# react-native-hud-view\nHudView is a React Native Component for showing HUDs. HudView is based on [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons) but can also be used with custom components.\n\n## Supports the following vector icons:\n* Ionicons\n* Entypo\n* EvilIcons\n* FontAwesome\n* MaterialIcons\n* Octicons\n* Zocial\n* Foundation\n\n\n<img src=\"https://github.com/iktw/react-native-hud-view/blob/master/hudview.gif\" width=\"300px\"/>\n\n### Props\n| Name        | Type | Default |\n| ------------- |-------------|-------------|\n|fadeDuration | Number | 700 |\n|hudBackgroundColor | String | #000000 |\n| hudOpacity | Number | 0.8 |\n| iconSize     | Number | 42 |\n| iconColor | Number | #FFFFFF |\n| successComponent | React Native Component | *react-native-vector-icons* FontAwesome check icon |\n| errorComponent | React Native Component | *react-native-vector-icons* FontAwesome exclamation-triangle icon |\n| spinnerComponent | React Native Component | *react-native-vector-icons* FontAwesome circle-o-notch icon |\n\n### Methods\n| Methods        | Args         \n| ------------- |-------------|\n|showSpinner | None |\n| showSuccess | None |\n| showError     | None |\n| showCustomIcon | setName, iconName, rotate, hideOnCompletion |\n| showCustomComponent | component, rotate, hideOnCompletion |\n| hide | None |\n\n### Method Args\n| Name        | Type | Default | Alternatives |\n| ------------- |-------------|-------------|-------------|\n|setName | String | fontawesome | ionicons, entypo, evilicons, fontawesome, materialicons, octicons, zocial, foundation |\n| iconName | String | null | See font icon documentation |\n| rotate     | Boolean | false | true/false |\n| hideOnCompletion | Boolean | true | true/false |\n| component | React Native Component | null | N/A |\n\n### Example of usage\n\n```\nrender() {\n  return(<HudView ref=\"hudView\">\n  </HudView>)\n}\n```\n\n\n#####Show Spinner HUD\n```\nthis.refs.hudView.showSpinner()\n```\n#####Hide HUD\n```\nthis.refs.hudView.hide()\n```\n#####Show Error HUD\n```\nthis.refs.hudView.showError()\n```\n#####Show Custom Icon HUD\n```\nthis.refs.hudView.showCustomIcon('ionicons', 'star')\n```\n#####Show Custom Icon HUD as Spinner\n```\nthis.refs.hudView.showCustomIcon('ionicons', 'star', true, false)\n```\n\n#####Show custom component HUD\n```\nvar customComponent = (<Text style={{color: \"#ffffff\"}}>Loading</Text>)\nthis.refs.hudView.showCustomComponent(customComponent)\n```\n#####Show custom component HUD as spinner\n```\nvar customComponent = (<Text style={{color: \"#ffffff\"}}>Spinning</Text>)\nthis.refs.hudView.showCustomComponent(customComponent, true, false)\n```\n#####Do something on HUD completion\nAll methods returns a promise if hideOnCompletion is set to true.\n```\nhudView.showSuccess().then(() => {\n  alert(\"Success view did complete.\")\n})\n```\n",
+  "readmeFilename": "README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iktw/react-native-hud-view.git"
   },
-  "keywords": [
-    "react-native",
-    "react-native-component",
-    "react-component",
-    "react",
-    "native",
-    "hud",
-    "ios",
-    "android"
-  ],
-  "author": "Mohammed Hammoud",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/iktw/react-native-hud-view/issues"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "homepage": "https://github.com/iktw/react-native-hud-view#readme",
-  "dependencies": {
-    "react-native-vector-icons": "^1.3.4"
-  }
+  "version": "1.0.5"
 }
